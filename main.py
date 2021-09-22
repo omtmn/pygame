@@ -8,6 +8,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My First Game")
 WHITE = (255, 255, 255)
 FPS = 60
+VELOCITY = 5
 
 
 YELLOW_SPACESHIP_IMAGE = pygame.image.load(
@@ -27,6 +28,28 @@ def window_draw(red, yellow):
     pygame.display.update()
 
 
+def handle_yellow_movement(keys_pressed, yellow):
+    if keys_pressed[pygame.K_a]:  # (wasd keys)
+        yellow.x -= VELOCITY
+    if keys_pressed[pygame.K_d]:
+        yellow.x += VELOCITY
+    if keys_pressed[pygame.K_w]:
+        yellow.y -= VELOCITY
+    if keys_pressed[pygame.K_s]:
+        yellow.y += VELOCITY
+
+
+def handle_red_movement(keys_pressed, red):
+    if keys_pressed[pygame.K_LEFT]:  # (wasd keys)
+        red.x -= VELOCITY
+    if keys_pressed[pygame.K_RIGHT]:
+        red.x += VELOCITY
+    if keys_pressed[pygame.K_UP]:
+        red.y -= VELOCITY
+    if keys_pressed[pygame.K_DOWN]:
+        red.y += VELOCITY
+
+
 def main():
     red = pygame.Rect(700, 300, 55, 40)
     yellow = pygame.Rect(100, 300, 55, 40)
@@ -38,6 +61,9 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+        keys_pressed = pygame.key.get_pressed()
+        handle_yellow_movement(keys_pressed, yellow)
+        handle_red_movement(keys_pressed, red)
         window_draw(red, yellow)
     pygame.quit()
 
